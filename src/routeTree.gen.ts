@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChatbotRouteImport } from './routes/chatbot'
 import { Route as EmailRouteImport } from './routes/email'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatbotRoute = ChatbotRouteImport.update({
+  id: '/chatbot',
+  path: '/chatbot',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EmailRoute = EmailRouteImport.update({
@@ -25,27 +31,31 @@ const EmailRoute = EmailRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chatbot': typeof ChatbotRoute
   '/email': typeof EmailRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chatbot': typeof ChatbotRoute
   '/email': typeof EmailRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chatbot': typeof ChatbotRoute
   '/email': typeof EmailRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/email'
+  fullPaths: '/' | '/chatbot' | '/email'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/email'
-  id: '__root__' | '/' | '/email'
+  to: '/' | '/chatbot' | '/email'
+  id: '__root__' | '/' | '/chatbot' | '/email'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChatbotRoute: typeof ChatbotRoute
   EmailRoute: typeof EmailRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chatbot': {
+      id: '/chatbot'
+      path: '/chatbot'
+      fullPath: '/chatbot'
+      preLoaderRoute: typeof ChatbotRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/email': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChatbotRoute: ChatbotRoute,
   EmailRoute: EmailRoute,
 }
 export const routeTree = rootRouteImport
