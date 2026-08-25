@@ -124,9 +124,9 @@ export function generateEmail(input: EmailInput): GeneratedEmail {
     : "";
 
   const body = [
-    TONE_OPENERS[input.tone] ?? TONE_OPENERS.Professional,
+    TONE_OPENERS[input.tone] ?? TONE_OPENERS["Professional"]!,
     "",
-    PURPOSE_BODY[input.purpose] ?? PURPOSE_BODY["General email"],
+    PURPOSE_BODY[input.purpose] ?? PURPOSE_BODY["General email"]!,
     detailBlock.trim(),
     "",
     "If you have any questions at all, simply reply to this email and a member of our team will assist you personally.",
@@ -136,10 +136,10 @@ export function generateEmail(input: EmailInput): GeneratedEmail {
     .replace(/\n{3,}/g, "\n\n");
 
   return {
-    subject: SUBJECTS[input.purpose] ?? SUBJECTS["General email"],
+    subject: SUBJECTS[input.purpose] ?? SUBJECTS["General email"]!,
     greeting: who,
     body,
-    closing: TONE_CLOSERS[input.tone] ?? TONE_CLOSERS.Professional,
+    closing: TONE_CLOSERS[input.tone] ?? TONE_CLOSERS["Professional"]!,
   };
 }
 
@@ -299,7 +299,7 @@ export function generatePlan(tasks: Task[]): Plan {
   return {
     priorities: sorted.slice(0, 3).map((t) => `${t.title} — ${t.priority} (${t.category})`),
     schedule: sorted.slice(0, SLOTS.length).map((t, i) => ({
-      time: SLOTS[i],
+      time: SLOTS[i]!,
       task: `${t.title} · approx. ${t.duration || "30 min"}`,
     })),
     week: DAYS.map((day, i) => ({
