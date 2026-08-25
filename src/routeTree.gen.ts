@@ -15,6 +15,7 @@ import { Route as ChatbotRouteImport } from './routes/chatbot'
 import { Route as EmailRouteImport } from './routes/email'
 import { Route as PlannerRouteImport } from './routes/planner'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SettingsRouteImport } from './routes/settings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +47,11 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/email': typeof EmailRoute
   '/planner': typeof PlannerRoute
   '/services': typeof ServicesRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/email': typeof EmailRoute
   '/planner': typeof PlannerRoute
   '/services': typeof ServicesRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,13 +79,27 @@ export interface FileRoutesById {
   '/email': typeof EmailRoute
   '/planner': typeof PlannerRoute
   '/services': typeof ServicesRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/activity' | '/chatbot' | '/email' | '/planner' | '/services'
+    | '/'
+    | '/activity'
+    | '/chatbot'
+    | '/email'
+    | '/planner'
+    | '/services'
+    | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/activity' | '/chatbot' | '/email' | '/planner' | '/services'
+  to:
+    | '/'
+    | '/activity'
+    | '/chatbot'
+    | '/email'
+    | '/planner'
+    | '/services'
+    | '/settings'
   id:
     | '__root__'
     | '/'
@@ -86,6 +108,7 @@ export interface FileRouteTypes {
     | '/email'
     | '/planner'
     | '/services'
+    | '/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -95,6 +118,7 @@ export interface RootRouteChildren {
   EmailRoute: typeof EmailRoute
   PlannerRoute: typeof PlannerRoute
   ServicesRoute: typeof ServicesRoute
+  SettingsRoute: typeof SettingsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -141,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -151,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmailRoute: EmailRoute,
   PlannerRoute: PlannerRoute,
   ServicesRoute: ServicesRoute,
+  SettingsRoute: SettingsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
